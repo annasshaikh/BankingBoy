@@ -1,0 +1,13 @@
+This File Will be Used For Discussion
+
+The Program is going to have Few methods.
+Create An Account:
+View Account (Will Show Balance Only For Now)
+Depost: Increase The Amount in the X account.
+Withdraw: Decrease The Amount in the X account.
+Transfer: Will Transfer X Amount From Ys Acount to Zs Account.
+
+What Do You Think ?
+On How To Store Data: 
+1) We Create 3 Array One For Name, Second For Ballance and Last For Password?
+or We Create one array and put the carracter side by side?

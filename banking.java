@@ -17,7 +17,7 @@ public class banking {
     while(true){
       System.out.print("------> ");
       choice = input.nextInt();
-      if (choice <= 5 || choice >= 1)
+      if (choice <= 5 && choice >= 1)
         break;
       System.out.println("Wrong Ïnput");
     }

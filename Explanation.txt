@@ -9,5 +9,24 @@ Transfer: Will Transfer X Amount From Ys Acount to Zs Account.
 
 What Do You Think ?
 On How To Store Data: 
-1) We Create 3 Array One For Name, Second For Ballance and Last For Password?
-or We Create one array and put the carracter side by side?
+ We Create 3 Array One For Name, Second For Ballance and Last For Password
+ The Index will be the acount number eg
+ account number 3
+ name[3] = annas
+ password[3] = pass123
+ Balance[3] = 1000
+-----------------------------------------------------------------------------------------------
+Snipnet #C1 
+Press enter to countinue
+Source: https://www.codegrepper.com/code-examples/java/How+to+do+press+enter+to+continue+in+java
+-----------------------------------------------------------------------------------------------
+Basic flow of code
+
+while (run){
+    if (6) exit the Program
+
+    if (1) make account
+    2: details
+    3: .....
+    repeat
+}

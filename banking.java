@@ -1,26 +1,77 @@
+
 import java.util.Scanner;
 
-import javax.sound.midi.Soundbank;
 
 public class banking {
   
   public static void main(String[] args) {
     Scanner input = new Scanner(System.in);
-    System.out.println("Welcome To BankBoy: \n" +
-                      "Press 1 to Create Account \n" +
-                      "Press 2 To View Details \n" +
-                      "Press 3 For Deposit \n" +
-                      "Press 4 For Withdrawl \n" + 
-                      "Press 5 For Transation \n" );    
-    int choice = -1;
-    // This Will Ask For Value Until 1 - 5 is input.
-    while(true){
-      System.out.print("------> ");
-      choice = input.nextInt();
-      if (choice <= 5 && choice >= 1)
-        break;
-      System.out.println("Wrong Ïnput");
+    String[] name = new String[100];
+    int[] balance = new int[100];
+    String[] password = new String[100];
+    while(true){ 
+      System.out.println("Welcome To BankBoy: \n" +
+                        "Press 1 to Create Account \n" +
+                        "Press 2 To View Details \n" +
+                        "Press 3 For Deposit \n" +
+                        "Press 4 For Withdrawl \n" + 
+                        "Press 5 For Transation \n" +
+                        "Press 6 For Exit \n" );    
+      int choice = -1;
+      // This Will Ask For Value Until 1 - 5 is input.
+      while(true){
+        System.out.print("------> ");
+        choice = input.nextInt();
+        if (choice == 6) 
+          System.exit(0); // If 6 Then Exit From Program
+        if (choice <= 5 && choice >= 1)
+          break;
+        System.out.println("Wrong Input");
+      }
+      
+      int account_number;
+
+      switch (choice){
+        
+        case 1: 
+                for (account_number = 0; (password[account_number] != null); account_number++);
+                System.out.print("Name: ");
+                name[account_number] = input.next();
+                System.out.print("Password: ");
+                password[account_number] = input.next(); 
+                System.out.println("-------------------------------------------------------------------------------");
+                System.out.println("Welcome " + name[account_number] + " Your Account Number is " + account_number + "  (Please Remeber this)");
+                System.out.println("-------------------------------------------------------------------------------");
+                
+                break;
+        case 2: // View Details Code
+                System.out.print("Account Number: ");
+                account_number = input.nextInt();
+                // Validation of Account Number Required here, (Do While loop and it should be present)
+                System.out.print("Password: ");
+                String user_password = input.next();
+                System.out.println(password[account_number]);
+                // Validation of Account Number Required here, (Do While loop and it should be present)
+                if (user_password.equals(password[account_number])){               
+                  System.out.println("**********************************************************");
+                  System.out.println("Name: " + name[account_number] + "\t Balance: " + balance[account_number]);
+                  System.out.println("**********************************************************");
+                }else System.out.println("Wrong Password");
+
+                break;
+        case 3: // Deposit Code
+                break;
+        case 4: // Withdrawl code
+                break;
+        case 5: // Transition code.
+                break;
+
+      }
+      // Next - 3 Lines | Snipnet #C1 
+      System.out.println("Press enter to continue");
+      try{System.in.read();}
+              catch(Exception e){}
     }
-  
   }
+
 }

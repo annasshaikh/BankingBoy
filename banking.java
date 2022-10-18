@@ -48,6 +48,21 @@ public class banking {
                 System.out.print("Account Number: ");
                 account_number = input.nextInt();
                 // Validation of Account Number Required here, (Do While loop and it should be present)
+                
+                  for (int i = 3; i >= 1; i--) {
+                    if (name[account_number]==null) {
+                  System.out.println("Account Number does not exist, try again");
+                  System.out.println("You have "+i+" tries remaining");
+                  System.out.print("Account Number: ");
+                  account_number = input.nextInt();
+                    }
+                  }
+                  
+                  if (name[account_number]==null){
+                    System.out.println("You have reached your limits of tries");
+                    break;
+                  }
+          
                 System.out.print("Password: ");
                 String user_password = input.next();
                 System.out.println(password[account_number]);
@@ -60,6 +75,22 @@ public class banking {
 
                 break;
         case 3: // Deposit Code
+                System.out.print("Enter your account No : ");
+                account_number = input.nextInt();
+                if (name[account_number]==null) {
+                  System.out.println("Account Number does not exist");
+                  break;
+                }
+                System.out.print("Password: ");
+                String user_password1 = input.next();
+                System.out.println(password[account_number]);
+                // Validation of Account Number Required here, (Do While loop and it should be present)
+                if (user_password1.equals(password[account_number])){
+                System.out.print("Plz enter the amount to deposit : ");
+                balance [account_number]+=input.nextInt();
+                System.out.println("Your amount is added succesfully, your new balance is " + balance [account_number]+ "Rs");
+               }else System.out.println("Wrong Password");
+
                 break;
         case 4: // Withdrawl code
                 break;

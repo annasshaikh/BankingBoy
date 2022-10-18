@@ -59,7 +59,7 @@ public class banking {
                   }
                   
                   if (name[account_number]==null){
-                    System.out.println("You have reached your limits of tries");
+                    System.out.println("You have reached your limit of tries");
                     break;
                   }
           

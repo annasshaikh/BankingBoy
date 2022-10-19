@@ -83,19 +83,36 @@ public class banking {
                   break;
                 }
 
+                System.out.print("Plz enter the amount to deposit : ");
+                balance[account_number] += input.nextInt();
+                
+                System.out.println("--------------------------------------------------------------");
+                System.out.println("Your amount is added succesfully, your new balance is Rs." + balance[account_number]);
+                System.out.println("--------------------------------------------------------------");
+                
+                break;
+        case 4: // Withdrawl code
+                System.out.print("Enter your account No : ");
+                account_number = input.nextInt();
+
+                if (account_number >= 0 && name[account_number]==null) {
+                  System.out.println("Account Number does not exist");
+                  break;
+                }
+
                 System.out.print("Password: ");
                 String user_password1 = input.next();
 
                 if (user_password1.equals(password[account_number])){
-                  System.out.print("Plz enter the amount to deposit : ");
-                  balance[account_number] += input.nextInt();
+                  System.out.print("Plz enter the amount to Withdrawl: ");
+                  balance[account_number] -= input.nextInt();
+
                   System.out.println("--------------------------------------------------------------");
-                  System.out.println("Your amount is added succesfully, your new balance is Rs." + balance[account_number]);
+                  System.out.println("Your amount is Withdrawal succesfully, your new balance is Rs." + balance[account_number]);
                   System.out.println("--------------------------------------------------------------");
+            
                 }else System.out.println("Wrong Password");
 
-                break;
-        case 4: // Withdrawl code
                 break;
         case 5: // Transition code.
                 break;

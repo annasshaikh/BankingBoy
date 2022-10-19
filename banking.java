@@ -30,6 +30,7 @@ public class banking {
       }
       
       int account_number;
+      String user_password;
 
       switch (choice){
         
@@ -51,7 +52,7 @@ public class banking {
                 account_number = input.nextInt();
                 //Give User 3 Tries
                 for (int i = 3; i >= 1; i--) {
-                  if (account_number >= 0 && name[account_number]==null) {
+                  if (account_number < 0 && name[account_number]==null) {
                     System.out.println("Account Number does not exist, try again");
                     System.out.println("You have "+i+" tries remaining");
                     System.out.print("Account Number: ");
@@ -59,13 +60,13 @@ public class banking {
                   }
                 }
                 //after 3 wrong tries exit  
-                if (account_number >= 0 && name[account_number]==null){
+                if (account_number < 0 && name[account_number]==null){
                   System.out.println("You have reached your limit of tries");
                   break;
                 }
                 
                 System.out.print("Password: ");
-                String user_password = input.next();
+                user_password = input.next();
 
                 if (user_password.equals(password[account_number])){               
                   System.out.println("--------------------------------------------------------------");
@@ -78,7 +79,7 @@ public class banking {
                 System.out.print("Enter your account No : ");
                 account_number = input.nextInt();
 
-                if (account_number >= 0 && name[account_number]==null) {
+                if (account_number < 0 && name[account_number]==null) {
                   System.out.println("Account Number does not exist");
                   break;
                 }
@@ -86,7 +87,7 @@ public class banking {
                 System.out.print("Plz enter the amount to deposit : ");
                 int deposit = input.nextInt();
                 if (deposit > 0)
-                balance[account_number] += deposit;
+                  balance[account_number] += deposit;
                 else {
                   System.out.println("You cannot enter negative amount");
                   break;
@@ -101,19 +102,19 @@ public class banking {
                 System.out.print("Enter your account No : ");
                 account_number = input.nextInt();
 
-                if (account_number >= 0 && name[account_number]==null) {
+                if (account_number < 0 && name[account_number]==null) {
                   System.out.println("Account Number does not exist");
                   break;
                 }
 
                 System.out.print("Password: ");
-                String user_password1 = input.next();
+                user_password = input.next();
 
-                if (user_password1.equals(password[account_number])){
+                if (user_password.equals(password[account_number])){
                   System.out.print("Plz enter the amount to Withdrawl: ");
                   int withDrawl = input.nextInt();
                   if (withDrawl > 0 && withDrawl <= balance[account_number])
-                  balance[account_number] -= withDrawl;
+                    balance[account_number] -= withDrawl;
                   else{
                     System.out.println("You have insufficent funds");
                     break;
@@ -126,7 +127,33 @@ public class banking {
                 }else System.out.println("Wrong Password");
 
                 break;
-        case 5: // Transition code.
+        case 5: System.out.print("Enter Account No. (Transfer From) : ");
+                account_number = input.nextInt();
+
+                if (account_number < 0 && name[account_number]==null) {
+                  System.out.println("Account Number does not exist");
+                  break;
+                }
+
+                System.out.print("Password: ");
+                user_password = input.next();
+
+                if (user_password.equals(password[account_number])){
+                  System.out.print("Enter the Account Number (Transfer to): ");
+                  int account_number_to = input.nextInt();
+
+                  if (account_number_to < 0 && name[account_number_to]==null) {
+                    System.out.println("Account Number does not exist");
+                    break;
+                  }
+                  System.out.print("Enter Balance: ");
+                  int transfer_balance = input.nextInt();
+                  if (transfer_balance > 0 && transfer_balance <= balance[account_number]){
+                    balance[account_number] -= transfer_balance;
+                    balance[account_number_to] += transfer_balance;
+                  }else
+                    System.out.println("You have insufficent funds");
+                }
                 break;
 
       }

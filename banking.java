@@ -84,7 +84,13 @@ public class banking {
                 }
 
                 System.out.print("Plz enter the amount to deposit : ");
-                balance[account_number] += input.nextInt();
+                int deposit = input.nextInt();
+                if (deposit > 0)
+                balance[account_number] += deposit;
+                else {
+                  System.out.println("You cannot enter negative amount");
+                  break;
+                }
                 
                 System.out.println("--------------------------------------------------------------");
                 System.out.println("Your amount is added succesfully, your new balance is Rs." + balance[account_number]);
@@ -105,7 +111,13 @@ public class banking {
 
                 if (user_password1.equals(password[account_number])){
                   System.out.print("Plz enter the amount to Withdrawl: ");
-                  balance[account_number] -= input.nextInt();
+                  int withDrawl = input.nextInt();
+                  if (withDrawl > 0 && withDrawl <= balance[account_number])
+                  balance[account_number] -= withDrawl;
+                  else{
+                    System.out.println("You have insufficent funds");
+                    break;
+                  }
 
                   System.out.println("--------------------------------------------------------------");
                   System.out.println("Your amount is Withdrawal succesfully, your new balance is Rs." + balance[account_number]);

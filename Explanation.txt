@@ -30,3 +30,21 @@ while (run){
     3: .....
     repeat
 }
+
+Error #1
+Press enter to continue
+
+Welcome To BankBoy: 
+Press 1 to Create Account
+Press 2 To View Details
+Press 3 For Deposit
+Press 4 For Withdrawl
+Press 5 For Transation
+Press 6 For Exit
+
+------> 2
+Account Number: -1
+Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index -1 out of bounds for length 100
+        at banking.main(banking.java:52)
+
+account_number >= 0 Added in validation.

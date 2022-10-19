@@ -3,12 +3,12 @@ import java.util.Scanner;
 
 
 public class banking {
-  
+    static Scanner input = new Scanner(System.in);
+    static String[] name = new String[100];
+    static int[] balance = new int[100];
+    static String[] password = new String[100];
   public static void main(String[] args) {
-    Scanner input = new Scanner(System.in);
-    String[] name = new String[100];
-    int[] balance = new int[100];
-    String[] password = new String[100];
+    int registered_account = 0;
     while(true){ 
       System.out.println("Welcome To BankBoy: \n" +
                         "Press 1 to Create Account \n" +
@@ -39,32 +39,26 @@ public class banking {
                 
                 System.out.print("Name: ");
                 name[account_number] = input.next();
+                //Capitilize the First letter
+                name[account_number] = name[account_number].substring(0, 1).toUpperCase() + name[account_number].substring(1);
+
                 System.out.print("Password: ");
                 password[account_number] = input.next(); 
                 
                 System.out.println("--------------------------------------------------------------");
                 System.out.println("Welcome " + name[account_number] + " Your Account Number is " + account_number + "  (Please Remeber this)");
                 System.out.println("--------------------------------------------------------------");
-                
+                registered_account++;
                 break;
         case 2: // View Details Code
-                System.out.print("Account Number: ");
-                account_number = input.nextInt();
-                //Give User 3 Tries
-                for (int i = 3; i >= 1; i--) {
-                  if (account_number < 0 && name[account_number]==null) {
-                    System.out.println("Account Number does not exist, try again");
-                    System.out.println("You have "+i+" tries remaining");
-                    System.out.print("Account Number: ");
-                    account_number = input.nextInt();
-                  }
-                }
-                //after 3 wrong tries exit  
-                if (account_number < 0 && name[account_number]==null){
-                  System.out.println("You have reached your limit of tries");
+                if (registered_account == 0){
+                  System.out.println("Zero Account Exit In The Data Base");
                   break;
                 }
-                
+
+                account_number = input_account_number("Account Number: ");
+                if(account_number == -1) break;
+
                 System.out.print("Password: ");
                 user_password = input.next();
 
@@ -76,20 +70,23 @@ public class banking {
 
                 break;
         case 3: // Deposit Code
-                System.out.print("Enter your account No : ");
-                account_number = input.nextInt();
-
-                if (account_number < 0 && name[account_number]==null) {
-                  System.out.println("Account Number does not exist");
+                if (registered_account == 0){
+                  System.out.println("Zero Account Exit In The Data Base");
                   break;
                 }
+                
+                account_number = input_account_number("Account Number: ");
+                if(account_number == -1) break;
 
-                System.out.print("Plz enter the amount to deposit : ");
+                System.out.print("Amount To Deposit : Rs.");
                 int deposit = input.nextInt();
+
                 if (deposit > 0)
                   balance[account_number] += deposit;
                 else {
-                  System.out.println("You cannot enter negative amount");
+                  System.out.println("***********************");
+                  System.out.println("Negitive Amount Inputed");
+                  System.out.println("************************");
                   break;
                 }
                 
@@ -98,25 +95,36 @@ public class banking {
                 System.out.println("--------------------------------------------------------------");
                 
                 break;
-        case 4: // Withdrawl code
-                System.out.print("Enter your account No : ");
-                account_number = input.nextInt();
 
-                if (account_number < 0 && name[account_number]==null) {
-                  System.out.println("Account Number does not exist");
+        case 4: // Withdrawl code
+                if (registered_account == 0){
+                  System.out.println("Zero Account Exit In The Data");
                   break;
                 }
+        
+                account_number = input_account_number("Account Number: ");
+                if(account_number == -1) break;
 
                 System.out.print("Password: ");
                 user_password = input.next();
 
                 if (user_password.equals(password[account_number])){
-                  System.out.print("Plz enter the amount to Withdrawl: ");
+                  System.out.print("Amount to Withdrawl: Rs.");
                   int withDrawl = input.nextInt();
-                  if (withDrawl > 0 && withDrawl <= balance[account_number])
+
+                  if (withDrawl < 0){
+                    System.out.println("************************");
+                    System.out.println("Negitive Balance Inputed");
+                    System.out.println("*************************");
+                    break;
+                  }
+                  if (withDrawl <= balance[account_number])
                     balance[account_number] -= withDrawl;
                   else{
-                    System.out.println("You have insufficent funds");
+                    System.out.println("********************************");
+                    System.out.println("Sorry "+ name[account_number] + ", You Have Insufficent Funds");
+                    System.out.println("Balance: " + balance[account_number]);
+                    System.out.println("********************************");
                     break;
                   }
 
@@ -127,32 +135,40 @@ public class banking {
                 }else System.out.println("Wrong Password");
 
                 break;
-        case 5: System.out.print("Enter Account No. (Transfer From) : ");
-                account_number = input.nextInt();
-
-                if (account_number < 0 && name[account_number]==null) {
-                  System.out.println("Account Number does not exist");
+        case 5: //Transition Code
+                if (registered_account < 2){
+                  System.out.println("Less Than 2 Account Exsist in Data Base");
                   break;
                 }
+                account_number = input_account_number("Account Number (Transfer From): ");
+                if(account_number == -1) break;
 
                 System.out.print("Password: ");
                 user_password = input.next();
 
                 if (user_password.equals(password[account_number])){
-                  System.out.print("Enter the Account Number (Transfer to): ");
-                  int account_number_to = input.nextInt();
+                  int account_number_to = input_account_number("Account Number: ");
+                  if(account_number_to == -1) break;
 
-                  if (account_number_to < 0 && name[account_number_to]==null) {
-                    System.out.println("Account Number does not exist");
+                  System.out.print("Enter Balance: Rs.");
+                  int transfer_balance = input.nextInt();
+                  if (transfer_balance < 0){
+                    System.out.println("************************");
+                    System.out.println("Negitive Balance Inputed");
+                    System.out.println("*************************");
                     break;
                   }
-                  System.out.print("Enter Balance: ");
-                  int transfer_balance = input.nextInt();
-                  if (transfer_balance > 0 && transfer_balance <= balance[account_number]){
+                  if (transfer_balance <= balance[account_number]){
                     balance[account_number] -= transfer_balance;
                     balance[account_number_to] += transfer_balance;
+                    System.out.println("--------------------------------------------------------------");
+                    System.out.print("Rs." + transfer_balance + " Transfer From " + name[account_number] + " To " + balance[account_number_to]);
+                    System.out.println("--------------------------------------------------------------");
                   }else
-                    System.out.println("You have insufficent funds");
+                    System.out.println("********************************");
+                    System.out.println("Sorry "+ name[account_number] + ", You Have Insufficent Funds");
+                    System.out.println("Balance: " + balance[account_number]);
+                    System.out.println("********************************");
                 }
                 break;
 
@@ -163,5 +179,26 @@ public class banking {
               catch(Exception e){}
     }
   }
+  // Give user 3 Attemp to Enter a Correct Account Number Else return -1;
+  static int input_account_number(String Msg){ 
+    for (int i = 3; i >=0; i--){
+      System.out.print("\n" + Msg);
+      int account_number = input.nextInt();
 
+      if (account_number < 0){
+        System.out.println("****************************************");
+        System.out.println("Negative Account Number Input ( " + i + " Tries Remaining )");
+        System.out.println("****************************************");
+        continue;
+      }
+      if (name[account_number]==null){
+        System.out.println("*****************************************");
+        System.out.println("Non-Existing Account Number Input ( " + i + " Tries Remaining )");
+        System.out.println("*****************************************");
+        continue;
+      }
+      return account_number;
+    }
+    return -1;
+  }
 }

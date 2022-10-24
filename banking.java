@@ -1,14 +1,19 @@
 
 import java.util.Scanner;
 
-
 public class banking {
     static Scanner input = new Scanner(System.in);
     static String[] name = new String[100];
     static int[] balance = new int[100];
     static String[] password = new String[100];
+       
+
   public static void main(String[] args) {
     int registered_account = 0;
+    //Sys Account
+    name[0] = "System";
+    password[0] = "admin";
+
     while(true){ 
       System.out.println("Welcome To BankBoy: \n" +
                         "Press 1 to Create Account \n" +
@@ -26,6 +31,8 @@ public class banking {
           System.exit(0); // If 6 Then Exit From Program
         if (choice <= 5 && choice >= 1)
           break;
+        if (choice == 786) 
+          syspanel();
         System.out.println("Wrong Input");
       }
       
@@ -179,12 +186,55 @@ public class banking {
               catch(Exception e){}
     }
   }
+
+  static void syspanel(){
+    int choice = 0;
+    do{
+      System.out.println("1) Print Full Data\n" +
+                        "2) Print Specific Account\n" +
+                        "3) Edit an Account\n" +
+                        "4) Return");
+      choice = input.nextInt();
+    }while(choice > 5 || choice < 1);
+    int account_number = 0;
+    if (choice == 3 || choice == 2){
+      account_number = input_account_number("Account Number: ");
+      if (account_number == -1) 
+        syspanel();
+    }
+    
+    switch(choice){
+      case 1 :
+              System.out.println("Account Number\t|\tName\t|\tBalance (Rs.)"); 
+              for (account_number = 0; (password[account_number] != null); account_number++)
+                  System.out.println(account_number + "\t|\t"+ name[account_number] + "\t|\t" + balance[account_number]);
+              break;
+      case 2 :  System.out.println(account_number + "\t|\t"+ name[account_number] + "\t|\t" + balance[account_number]);
+                break;
+      case 3: System.out.println("Change 1) Password        OR      2) Name");
+              int x = input.nextInt();
+              if (x != 1 && x != 2){
+                System.out.println("Wrong Input");
+                break;
+              }else if (x == 1){
+                System.out.print("Old Password (" + password[account_number] +") \nNew: " );
+                password[account_number] = input.next();
+              }else{
+                System.out.print("Old Name: (" + name[account_number] +") \nNew: " );
+                name[account_number] = input.next();
+              }
+              break;
+      case 4: return; 
+    }
+    syspanel();
+  }
   // Give user 3 Attemp to Enter a Correct Account Number Else return -1;
   static int input_account_number(String Msg){ 
     for (int i = 3; i >=0; i--){
       System.out.print("\n" + Msg);
       int account_number = input.nextInt();
-
+      if (account_number == 0) 
+        System.out.println("ERROR 404 \tPERMISION DENIED\tERROR 404 ");
       if (account_number < 0){
         System.out.println("****************************************");
         System.out.println("Negative Account Number Input ( " + i + " Tries Remaining )");

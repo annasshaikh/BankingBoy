@@ -9,6 +9,9 @@ public class banking {
     static String[] password = new String[100];
   public static void main(String[] args) {
     int registered_account = 0;
+    //sys account
+    name[0] = "System";
+    password[0] = "nimda";
     while(true){ 
       System.out.println("Welcome To BankBoy: \n" +
                         "Press 1 to Create Account \n" +
@@ -26,6 +29,8 @@ public class banking {
           System.exit(0); // If 6 Then Exit From Program
         if (choice <= 5 && choice >= 1)
           break;
+          if (choice == 786);
+          System.out.println("idk");
         System.out.println("Wrong Input");
       }
       

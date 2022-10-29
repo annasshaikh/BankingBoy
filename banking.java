@@ -27,8 +27,8 @@ public class banking {
           System.exit(0); // If 6 Then Exit From Program
         if (choice <= 5 && choice >= 1)
           break;
-        //if (choice == 786) 
-          //syspanel();
+        if (choice == 786) 
+          syspanel();
         System.out.println("Wrong Input");
       }
       
@@ -197,8 +197,53 @@ public class banking {
     }
   }
 
-  static void update_password(String acc, String password){}
+  static void update_password(String acc, String password){
+    String path = System.getProperty("user.dir")+"//data//" + acc + ".txt";
+    File f = new File(path);
+    String[] data = new String[3];
+    try (Scanner finput = new Scanner(f)) {
+      data = finput.nextLine().split(" ");
+      data[0] = password;
+    } catch (FileNotFoundException e) {
+      System.out.println("SomeThing Went Wrong #FileNotFound");
+      e.printStackTrace();
+    }
+    f.delete();
+    FileWriter fw;
+    try {
+      fw = new FileWriter(path);
+      for (String x : data)
+        fw.write(x + " ");
+      fw.write("\b");
+      fw.close();
+    } catch (IOException e) {
+      System.out.println("Something Went Wrong #IOE");
+      e.printStackTrace();
+    }
+  }
   static void update_name(String acc, String name){
+    String path = System.getProperty("user.dir")+"//data//" + acc + ".txt";
+    File f = new File(path);
+    String[] data = new String[3];
+    try (Scanner finput = new Scanner(f)) {
+      data = finput.nextLine().split(" ");
+      data[1] = name;
+    } catch (FileNotFoundException e) {
+      System.out.println("SomeThing Went Wrong #FileNotFound");
+      e.printStackTrace();
+    }
+    f.delete();
+    FileWriter fw;
+    try {
+      fw = new FileWriter(path);
+      for (String x : data)
+        fw.write(x + " ");
+      fw.write("\b");
+      fw.close();
+    } catch (IOException e) {
+      System.out.println("Something Went Wrong #IOE");
+      e.printStackTrace();
+    }
   }
 
   static void update_balance(String acc,int balance,boolean deposit){
@@ -263,14 +308,15 @@ public class banking {
     }
     return false;
   }
-/* 
+
   static void syspanel(){
     int choice = 0;
     do{
       System.out.println("1) Print Full Data\n" +
                         "2) Print Specific Account\n" +
                         "3) Edit an Account\n" +
-                        "4) Return");
+                        "4) Print Ledger" +
+                        "5) Return");
       choice = input.nextInt();
     }while(choice > 5 || choice < 1);
     int account_number = 0;
@@ -282,30 +328,33 @@ public class banking {
     
     switch(choice){
       case 1 :
-              System.out.println("Account Number\t|\tName\t|\tBalance (Rs.)"); 
-              for (account_number = 0; (password[account_number] != null); account_number++)
-                  System.out.println(account_number + "\t|\t"+ name[account_number] + "\t|\t" + balance[account_number]);
+              System.out.println("Account Number\t|\tPassword\t|\tName\t|\tBalance (Rs.)"); 
+              for (account_number = 0; is_account_exsit(Integer.toString(account_number)); account_number++)
+                System.out.println(account_number + "\t\t|\t"+detail(account_number, 0) +"\t|\t"+detail(account_number, 1) + "\t|\t" + detail(account_number, 2));
               break;
-      case 2 :  System.out.println(account_number + "\t|\t"+ name[account_number] + "\t|\t" + balance[account_number]);
-                break;
+
+      case 2 : System.out.println(account_number + "\t|\t"+detail(account_number, 0) +"\t|\t"+detail(account_number, 1) + "\t|\t" + detail(account_number, 2));
+               break;
+
       case 3: System.out.println("Change 1) Password        OR      2) Name");
               int x = input.nextInt();
               if (x != 1 && x != 2){
                 System.out.println("Wrong Input");
                 break;
               }else if (x == 1){
-                System.out.print("Old Password (" + password[account_number] +") \nNew: " );
-                password[account_number] = input.next();
+                System.out.print("Old Password (" + detail(account_number, 0) +") \nNew: " );
+                update_password(Integer.toString(account_number), input.next());
               }else{
-                System.out.print("Old Name: (" + name[account_number] +") \nNew: " );
-                name[account_number] = input.next();
+                System.out.print("Old Name (" + detail(account_number, 1) +") \nNew: " );
+                update_name(Integer.toString(account_number), input.next());
               }
               break;
-      case 4: return; 
+      case 4: System.out.println("bUILD iN pROGRESS");
+      case 5: return; 
     }
     syspanel();
   }
-  */
+
   // Give user 3 Attemp to Enter a Correct Account Number Else return -1;
   static int input_account_number(String Msg){ 
     for (int i = 3; i >=0; i--){

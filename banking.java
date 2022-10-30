@@ -27,8 +27,10 @@ public class banking {
           System.exit(0); // If 6 Then Exit From Program
         if (choice <= 5 && choice >= 1)
           break;
-        if (choice == 786) 
+        if (choice == 786){
           syspanel();
+          System.exit(2);
+        }
         System.out.println("Wrong Input");
       }
       
@@ -95,9 +97,11 @@ public class banking {
                 System.out.print("Amount To Deposit : Rs.");
                 int deposit = input.nextInt();
 
-                if (deposit > 0)
+                if (deposit > 0){
                   update_balance(Integer.toString(account_number), deposit, true);
-                else {
+                  update_balance("0", deposit, false);
+                  ledger_entry(account_number, 0 , deposit);
+                }else {
                   System.out.println("***********************");
                   System.out.println("Negitive Amount Inputed");
                   System.out.println("************************");
@@ -132,9 +136,11 @@ public class banking {
                     System.out.println("*************************");
                     break;
                   }
-                  if (withDrawl <= Integer.parseInt(detail(account_number, 2)))
+                  if (withDrawl <= Integer.parseInt(detail(account_number, 2))){
                     update_balance(Integer.toString(account_number), withDrawl, false);
-                  else{
+                    update_balance("0", withDrawl, true);
+                    ledger_entry(0, account_number, withDrawl);
+                  }else{
                     System.out.println("********************************");
                     System.out.println("Sorry "+ detail(account_number, 1) + ", You Have Insufficent Funds");
                     System.out.println("Balance: " + detail(account_number, 2));
@@ -175,6 +181,7 @@ public class banking {
                   if (transfer_balance <= Integer.parseInt(detail(account_number, 2))){
                     update_balance(Integer.toString(account_number), transfer_balance, false);
                     update_balance(Integer.toString(account_number_to),transfer_balance,true);
+                    ledger_entry(account_number_to, account_number, transfer_balance);
                     System.out.println("--------------------------------------------------------------");
                     System.out.println("Rs." + transfer_balance + " Transfer From " + detail(account_number, 1) + " To " + detail(account_number_to, 1));
                     System.out.println("--------------------------------------------------------------");
@@ -194,6 +201,32 @@ public class banking {
       System.out.println("Press enter to continue");
       try{System.in.read();}
               catch(Exception e){}
+    }
+  }
+  static void ledger_entry(int account_debit, int account_credit, int balance){
+    String path = System.getProperty("user.dir")+"//data//ledger.txt";
+    File f = new File(path);
+    Scanner finput;
+    String data = "";
+    try {
+      finput = new Scanner(f);
+      while (finput.hasNextLine()){
+        data += (finput.nextLine() +"\n");
+      }
+      f.delete();
+    } catch (FileNotFoundException e1) {
+      System.out.println("Something Went Wrong #ledger.txt not found");
+      e1.printStackTrace();
+    }
+    FileWriter fw;
+    try {
+      fw = new FileWriter(path);
+      fw.write(data);
+      fw.write(account_debit + " " + account_credit + " " + balance + "\n");
+      fw.close();
+    } catch (IOException e) {
+      System.out.println("Something Went wrong #IOELedger");
+      e.printStackTrace();
     }
   }
 
@@ -315,16 +348,18 @@ public class banking {
       System.out.println("1) Print Full Data\n" +
                         "2) Print Specific Account\n" +
                         "3) Edit an Account\n" +
-                        "4) Print Ledger" +
-                        "5) Return");
+                        "4) Print Ledger\n" +
+                        "5) Reset System\n" +
+                        "6) Return");
       choice = input.nextInt();
-    }while(choice > 5 || choice < 1);
+    }while(choice > 7 || choice < 1);
     int account_number = 0;
     if (choice == 3 || choice == 2){
       account_number = input_account_number("Account Number: ");
       if (account_number == -1) 
         syspanel();
     }
+
     
     switch(choice){
       case 1 :
@@ -349,10 +384,61 @@ public class banking {
                 update_name(Integer.toString(account_number), input.next());
               }
               break;
-      case 4: System.out.println("bUILD iN pROGRESS");
-      case 5: return; 
+              
+      case 4: String path = System.getProperty("user.dir")+"//data//ledger.txt";
+              File f = new File(path);
+              try (Scanner finput = new Scanner(f)) {
+                System.out.println("Debit\tAmount\t|\tCredit\tAmount");
+                while(finput.hasNextLine()){
+                  String[] data = finput.nextLine().split(" ");
+                  data[2] += "\b"; 
+                  System.out.println(detail(Integer.parseInt(data[0]), 1) + " (" + data[0] + ")\t" + data[2] +"\t|\t" + detail(Integer.parseInt(data[1]), 1) + " (" + data[1] + ")\t" + data[2] );
+                }
+              } catch (FileNotFoundException e) {
+                System.out.println("SomeThing Went Wrong #FileNotFound");
+                e.printStackTrace();
+              }
+            break;
+      case 5: System.out.println("Are You Sure, It will delete all data ? type yes");
+              if (input.next().equals("yes")){
+                reset();;
+              }
+              break;
+      case 6: return; 
     }
+    System.out.println("Press enter to continue");
+      try{System.in.read();}
+              catch(Exception e){}
     syspanel();
+  }
+
+  static void reset(){
+      String path = System.getProperty("user.dir")+"//data";
+      File f = new File(path);
+      String[] listname = f.list();
+      for (String x: listname){
+          if (x.endsWith(".txt")){
+              File temp = new File(path + "//" + x );
+              temp.delete();
+          }
+      }
+      FileWriter fa;
+      try {
+        fa = new FileWriter(path + "//0.txt");
+        fa.write("admin CashAccount 0");
+        fa.close();
+      } catch (IOException e) {
+        System.out.println("Something Went wrong #IOE-0.txt");
+        e.printStackTrace();
+      }
+      try {
+        fa = new FileWriter(path + "//ledger.txt");
+        fa.close();
+      } catch (IOException e) {
+        System.out.println("Something Went wrong #IOE-ledger.txt");
+        e.printStackTrace();
+      }
+
   }
 
   // Give user 3 Attemp to Enter a Correct Account Number Else return -1;

@@ -1,1 +1,1 @@
-admin BankingBoy 0
+admin CashAccount 0
